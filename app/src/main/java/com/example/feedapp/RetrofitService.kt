@@ -1,6 +1,10 @@
 package com.example.feedapp
 
 interface RetrofitService {
-    suspend fun getPosts(): List<String>
-    suspend fun getFriends(): List<String>
+    // fetch post api 
+    // /posts/
+    suspend fun getPosts(): List<Post>
+
+    // /friends/
+    suspend fun getFriends(): List<Friend>
 }

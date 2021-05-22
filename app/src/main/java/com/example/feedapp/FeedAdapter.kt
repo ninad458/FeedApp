@@ -48,18 +48,20 @@ class FeedAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return when (feed[position]) {
             is FeedListItem.PostType -> VH_POST
             is FeedListItem.FriendsType -> VH_FRIEND
+
         }
     }
 }
 
 class PostView(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bindPost(postType: FeedListItem.PostType) {
-        itemView.findViewById<TextView>(R.id.text_post).text = postType.text
+        itemView.findViewById<TextView>(R.id.text_post).text = postType.post.text
     }
 }
 
 class FriendsView(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bindFriends(friendsType: FeedListItem.FriendsType) {
-        itemView.findViewById<TextView>(R.id.list_friends).text = friendsType.friends.joinToString()
+        itemView.findViewById<TextView>(R.id.list_friends).text =
+            friendsType.friends.joinToString { it.name }
     }
 }
