@@ -1,6 +1,9 @@
-package com.example.feedapp
+package com.example.feedapp.di
 
 import androidx.annotation.WorkerThread
+import com.example.feedapp.datasource.remote.RetrofitService
+import com.example.feedapp.datasource.model.Friend
+import com.example.feedapp.datasource.model.Post
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +20,7 @@ object NetworkModule {
             @WorkerThread
             override suspend fun getPosts(): List<Post> {
                 delay(3000)
-                return listOf("Post 1", "Post 2", "Post 3", "Post 4").map { Post(it) }
+                return listOf("Post 1", "Post 2", "Post 3", "Post 4").map { Post(data = it) }
             }
 
             @WorkerThread
@@ -29,7 +32,7 @@ object NetworkModule {
                     "Friend 3",
                     "Friend 4",
                     "Friend 5"
-                ).map { Friend(it) }
+                ).map { Friend(name=it) }
             }
         }
     }

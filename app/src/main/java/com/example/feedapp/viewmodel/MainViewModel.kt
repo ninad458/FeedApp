@@ -1,12 +1,21 @@
-package com.example.feedapp
+package com.example.feedapp.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.feedapp.datasource.local.LocalRepository
+import com.example.feedapp.datasource.model.FeedListItem
+import com.example.feedapp.datasource.model.Friend
+import com.example.feedapp.datasource.model.Post
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(private val service: RetrofitService) : ViewModel() {
+class MainViewModel @Inject constructor(private val localRepo: LocalRepository) : ViewModel() {
 
     private val friendsLiveData = MutableLiveData<List<Friend>>()
 
@@ -35,22 +44,32 @@ class MainViewModel @Inject constructor(private val service: RetrofitService) : 
         }
     }
 
+    fun insertFriends(vararg friend: Friend){
+        viewModelScope.launch(Dispatchers.IO) {
+
+            localRepo.insertFriend(*friend)
+        }
+    }
+
+    fun insertPost( post: Post){
+        viewModelScope.launch(Dispatchers.IO) {
+
+            localRepo.insertPost(post)
+        }
+    }
+
     fun fetchFeedData() {
         getFriendsAsync()
         getPostsAsync()
     }
 
     private fun getPostsAsync() {
-        viewModelScope.launch {
-            val posts = service.getPosts()
-            postsLiveData.value = posts
-        }
+        val posts = localRepo.getPosts()
+        postsLiveData.value = posts.value
     }
 
     private fun getFriendsAsync() {
-        viewModelScope.launch {
-            val friends = service.getFriends()
-            friendsLiveData.value = friends
-        }
+        val friends = localRepo.getFriends()
+        friendsLiveData.value = friends.value
     }
 }
