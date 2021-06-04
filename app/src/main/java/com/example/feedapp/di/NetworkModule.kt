@@ -1,17 +1,17 @@
 package com.example.feedapp.di
 
 import androidx.annotation.WorkerThread
-import com.example.feedapp.datasource.remote.RetrofitService
 import com.example.feedapp.datasource.model.Friend
 import com.example.feedapp.datasource.model.Post
+import com.example.feedapp.datasource.remote.RetrofitService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.delay
 
 @Module
-@InstallIn(ActivityRetainedComponent::class)
+@InstallIn(SingletonComponent::class)
 object NetworkModule {
 
     @Provides
@@ -32,7 +32,7 @@ object NetworkModule {
                     "Friend 3",
                     "Friend 4",
                     "Friend 5"
-                ).map { Friend(name=it) }
+                ).map { Friend(name = it) }
             }
         }
     }

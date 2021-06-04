@@ -13,6 +13,3 @@ abstract class FeedDatabase : RoomDatabase() {
     abstract fun getPostDao(): PostDao
 }
 
-
-
-////prepopulated Data in room
