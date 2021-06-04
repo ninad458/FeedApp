@@ -28,7 +28,8 @@ class MainViewModel @Inject constructor(private val localRepo: LocalRepository) 
             val feedList = posts.map { FeedListItem.PostType(it) }.toMutableList<FeedListItem>()
 
             if (!friends.isNullOrEmpty()) {
-                feedList.add(0, FeedListItem.FriendsType(friends))
+                val pos = if (feedList.isNotEmpty()) 2 else 0
+                feedList.add(pos, FeedListItem.FriendsType(friends))
             }
 
             postValue(feedList)
