@@ -11,6 +11,7 @@ import com.example.feedapp.datasource.model.Friend
 import com.example.feedapp.datasource.model.Post
 import com.example.feedapp.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -36,9 +37,8 @@ class MainActivity : AppCompatActivity() {
     private fun addDataToLocal() {
 
         binding.addFab.setOnClickListener {
-            ++count
-            viewModel.insertFriends(*getFriends(count).toTypedArray())
-            viewModel.insertPost(*getPost(count).toTypedArray())
+            viewModel.insertFriends(*getFriends().toTypedArray())
+            viewModel.insertPost(*getPosts().toTypedArray())
         }
     }
 
@@ -57,31 +57,39 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getPost(count: Int): List<Post> {
-        var c = count
+    private fun getPosts(): List<Post> {
         return listOf(
-            Post(data = "Post ${++c}"),
-            Post(data = "Post ${++c}"),
-            Post(data = "Post ${++c}"),
-            Post(data = "Post ${++c}"),
-            Post(data = "Post ${++c}"),
-            Post(data = "Post ${++c}"),
-            Post(data = "Post ${++c}"),
-            Post(data = "Post ${++c}"),
-            Post(data = "Post ${++c}"),
+            Post(data = "Post ${++count}"),
+            Post(data = "Post ${++count}"),
+            Post(data = "Post ${++count}"),
+            Post(data = "Post ${++count}"),
+            Post(data = "Post ${++count}"),
+            Post(data = "Post ${++count}"),
+            Post(data = "Post ${++count}"),
+            Post(data = "Post ${++count}"),
+            Post(data = "Post ${++count}"),
         )
     }
 
-    private fun getFriends(count: Int): List<Friend> {
-        var c = count
+    private fun getFriends(): List<Friend> {
+        val name = { randomAlphaNumericString() }
         return listOf(
-            Friend(name = "${++c} Raj"),
-            Friend(name = "${++c} Vijay"),
-            Friend(name = "${++c} Ravi"),
-            Friend(name = "${++c} Nitin"),
-            Friend(name = "${++c} Hemant"),
-            Friend(name = "${++c} Lovely"),
-            Friend(name = "${++c} Victor"),
+            Friend(name = name()),
+            Friend(name = name()),
+            Friend(name = name()),
+            Friend(name = name()),
+            Friend(name = name()),
+            Friend(name = name()),
+            Friend(name = name()),
         )
+    }
+
+    private fun randomAlphaNumericString(desiredStrLength: Int = 20): String {
+        val charPool: List<Char> = ('a'..'z').toList()
+        Random.nextInt(20)
+        return (1..Random.nextInt(desiredStrLength))
+            .map { kotlin.random.Random.nextInt(0, charPool.size) }
+            .map(charPool::get)
+            .joinToString("").replaceFirstChar { it.uppercaseChar() }
     }
 }
