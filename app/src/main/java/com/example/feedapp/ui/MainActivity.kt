@@ -15,11 +15,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    var count = 0;
+    private var count = 0;
     private val viewModel: MainViewModel by viewModels()
     private val mAdapter = FeedAdapter()
 
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private fun addDataToLocal() {
 
         binding.addFab.setOnClickListener {
-            count++
+            ++count
             viewModel.insertFriends(*getFriends(count).toTypedArray())
             viewModel.insertPost(*getPost(count).toTypedArray())
         }
@@ -57,31 +57,31 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun getPost(count: Int): List<Post> {
-        return listOf<Post>(
-
-            Post(data = "Post $count"),
-            Post(data = "Post $count"),
-            Post(data = "Post $count"),
-            Post(data = "Post $count"),
-            Post(data = "Post $count"),
-            Post(data = "Post $count"),
-            Post(data = "Post $count"),
-            Post(data = "Post $count"),
-            Post(data = "Post $count"),
+    private fun getPost(count: Int): List<Post> {
+        var c = count
+        return listOf(
+            Post(data = "Post ${++c}"),
+            Post(data = "Post ${++c}"),
+            Post(data = "Post ${++c}"),
+            Post(data = "Post ${++c}"),
+            Post(data = "Post ${++c}"),
+            Post(data = "Post ${++c}"),
+            Post(data = "Post ${++c}"),
+            Post(data = "Post ${++c}"),
+            Post(data = "Post ${++c}"),
         )
     }
 
-    fun getFriends(count: Int): List<Friend> {
-        return listOf<Friend>(
-
-            Friend(name = "$count Raj"),
-            Friend(name = "$count Vijay"),
-            Friend(name = "$count Ravi"),
-            Friend(name = "$count Nitin"),
-            Friend(name = "$count Hemant"),
-            Friend(name = "$count Lovely"),
-            Friend(name = "$count Victor"),
+    private fun getFriends(count: Int): List<Friend> {
+        var c = count
+        return listOf(
+            Friend(name = "${++c} Raj"),
+            Friend(name = "${++c} Vijay"),
+            Friend(name = "${++c} Ravi"),
+            Friend(name = "${++c} Nitin"),
+            Friend(name = "${++c} Hemant"),
+            Friend(name = "${++c} Lovely"),
+            Friend(name = "${++c} Victor"),
         )
     }
 }
