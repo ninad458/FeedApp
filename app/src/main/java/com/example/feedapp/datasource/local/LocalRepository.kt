@@ -14,7 +14,7 @@ class LocalRepository @Inject constructor(private val friendDao: FriendDao, priv
 
     fun getFriends() = friendDao.fetchFriend()
 
-    suspend fun insertPost( vararg post: Post) {
+    suspend fun insertPost(vararg post: Post) {
         postDao.insertPost(*post)
     }
 
