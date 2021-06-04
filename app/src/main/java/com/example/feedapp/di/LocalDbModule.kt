@@ -16,7 +16,6 @@ import dagger.hilt.components.SingletonComponent
 @Module
 object LocalDbModule {
 
-    //    @DatabaseInfo
     private val mDBName =
         DATABASE_NAME
 

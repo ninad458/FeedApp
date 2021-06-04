@@ -35,35 +35,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun addDataToLocal() {
 
-        val friendList = listOf<Friend>(
-
-            Friend(name = "$count Raj"),
-            Friend(name = "$count Vijay"),
-            Friend(name = "$count Ravi"),
-            Friend(name = "$count Nitin"),
-            Friend(name = "$count Hemant"),
-            Friend(name = "$count Lovely"),
-            Friend(name = "$count Victor"),
-        )
-
-        val postList = listOf<Post>(
-
-            Post(data = "$count Post1"),
-            Post(data = "$count Post2"),
-            Post(data = "$count Post3"),
-            Post(data = "$count Post4"),
-            Post(data = "$count Post5"),
-            Post(data = "$count Post6"),
-            Post(data = "$count Post7"),
-        )
         binding.addFab.setOnClickListener {
-            viewModel.insertFriends(*friendList.toTypedArray())
-            viewModel.insertPost(*postList.toTypedArray())
-            count+=1;
+            count++
+            viewModel.insertFriends(*getFriends(count).toTypedArray())
+            viewModel.insertPost(*getPost(count).toTypedArray())
         }
     }
-
-
 
     private fun setRv() {
 
@@ -78,5 +55,33 @@ class MainActivity : AppCompatActivity() {
         viewModel.feed.observe(this, Observer {
             mAdapter.setData(it)
         })
+    }
+
+    fun getPost(count: Int): List<Post> {
+        return listOf<Post>(
+
+            Post(data = "Post $count"),
+            Post(data = "Post $count"),
+            Post(data = "Post $count"),
+            Post(data = "Post $count"),
+            Post(data = "Post $count"),
+            Post(data = "Post $count"),
+            Post(data = "Post $count"),
+            Post(data = "Post $count"),
+            Post(data = "Post $count"),
+        )
+    }
+
+    fun getFriends(count: Int): List<Friend> {
+        return listOf<Friend>(
+
+            Friend(name = "$count Raj"),
+            Friend(name = "$count Vijay"),
+            Friend(name = "$count Ravi"),
+            Friend(name = "$count Nitin"),
+            Friend(name = "$count Hemant"),
+            Friend(name = "$count Lovely"),
+            Friend(name = "$count Victor"),
+        )
     }
 }
