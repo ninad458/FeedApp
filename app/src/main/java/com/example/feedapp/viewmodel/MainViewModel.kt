@@ -2,7 +2,6 @@ package com.example.feedapp.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.feedapp.datasource.local.LocalRepository
@@ -17,9 +16,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val localRepo: LocalRepository) : ViewModel() {
 
-    private val friendsLiveData = MutableLiveData<List<Friend>>()
+    private val friendsLiveData = localRepo.getFriends()
 
-    private val postsLiveData = MutableLiveData<List<Post>>()
+    private val postsLiveData = localRepo.getPosts()
 
     val feed: LiveData<List<FeedListItem>> = MediatorLiveData<List<FeedListItem>>().apply {
 
@@ -28,48 +27,35 @@ class MainViewModel @Inject constructor(private val localRepo: LocalRepository) 
             val friends = friendsLiveData.value
             val feedList = posts.map { FeedListItem.PostType(it) }.toMutableList<FeedListItem>()
 
-            if (friends != null) {
-                feedList.add(1, FeedListItem.FriendsType(friends))
+            if (!friends.isNullOrEmpty()) {
+                feedList.add(0, FeedListItem.FriendsType(friends))
             }
 
             postValue(feedList)
         }
 
+        addSource(postsLiveData) {
+            handleData()
+        }
         addSource(friendsLiveData) {
             handleData()
         }
 
-        addSource(postsLiveData) {
-            handleData()
-        }
+
     }
 
-    fun insertFriends(vararg friend: Friend){
+    fun insertFriends(vararg friend: Friend) {
         viewModelScope.launch(Dispatchers.IO) {
 
             localRepo.insertFriend(*friend)
         }
     }
 
-    fun insertPost( post: Post){
+    fun insertPost(vararg post: Post) {
         viewModelScope.launch(Dispatchers.IO) {
 
-            localRepo.insertPost(post)
+            localRepo.insertPost(*post)
         }
     }
 
-    fun fetchFeedData() {
-        getFriendsAsync()
-        getPostsAsync()
-    }
-
-    private fun getPostsAsync() {
-        val posts = localRepo.getPosts()
-        postsLiveData.value = posts.value
-    }
-
-    private fun getFriendsAsync() {
-        val friends = localRepo.getFriends()
-        friendsLiveData.value = friends.value
-    }
 }

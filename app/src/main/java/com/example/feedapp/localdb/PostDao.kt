@@ -11,7 +11,7 @@ import com.example.feedapp.datasource.model.Post
 interface PostDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend  fun insertPost(post: Post) : Long
+    suspend  fun insertPost(vararg post: Post) : List<Long>
 
     @Query("select * From post")
     fun  fetchPost() : LiveData<List<Post>>

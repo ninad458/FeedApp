@@ -14,6 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    var count = 0;
     private val viewModel: MainViewModel by viewModels()
     private val mAdapter = FeedAdapter()
 
@@ -35,33 +37,33 @@ class MainActivity : AppCompatActivity() {
 
         val friendList = listOf<Friend>(
 
-            Friend(name = "Raj"),
-            Friend(name = "Vijay"),
-            Friend(name = "Ravi"),
-            Friend(name = "Nitin"),
-            Friend(name = "Hemant"),
-            Friend(name = "Lovely"),
-            Friend(name = "Victor"),
+            Friend(name = "$count Raj"),
+            Friend(name = "$count Vijay"),
+            Friend(name = "$count Ravi"),
+            Friend(name = "$count Nitin"),
+            Friend(name = "$count Hemant"),
+            Friend(name = "$count Lovely"),
+            Friend(name = "$count Victor"),
         )
 
         val postList = listOf<Post>(
 
-            Post(data = "Post1"),
-            Post(data = "Post2"),
-            Post(data = "Post3"),
-            Post(data = "Post4"),
-            Post(data = "Post5"),
-            Post(data = "Post6"),
-            Post(data = "Post7"),
+            Post(data = "$count Post1"),
+            Post(data = "$count Post2"),
+            Post(data = "$count Post3"),
+            Post(data = "$count Post4"),
+            Post(data = "$count Post5"),
+            Post(data = "$count Post6"),
+            Post(data = "$count Post7"),
         )
         binding.addFab.setOnClickListener {
             viewModel.insertFriends(*friendList.toTypedArray())
-            viewModel.insertPost(Post(data = "Post1"))
+            viewModel.insertPost(*postList.toTypedArray())
+            count+=1;
         }
-
-
-
     }
+
+
 
     private fun setRv() {
 
@@ -76,6 +78,5 @@ class MainActivity : AppCompatActivity() {
         viewModel.feed.observe(this, Observer {
             mAdapter.setData(it)
         })
-        viewModel.fetchFeedData()
     }
 }
