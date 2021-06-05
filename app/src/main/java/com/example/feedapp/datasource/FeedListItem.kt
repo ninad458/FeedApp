@@ -1,4 +1,4 @@
-package com.example.feedapp
+package com.example.feedapp.datasource
 
 sealed class FeedListItem {
     data class PostType(val post: Post) : FeedListItem()

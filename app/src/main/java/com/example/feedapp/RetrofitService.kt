@@ -1,5 +1,8 @@
 package com.example.feedapp
 
+import com.example.feedapp.datasource.Friend
+import com.example.feedapp.datasource.Post
+
 interface RetrofitService {
     // fetch post api 
     // /posts/
